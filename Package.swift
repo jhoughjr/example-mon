@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "vapor-auth-template",
+    name: "example-project-1",
     platforms: [
        .macOS(.v13),
     ],
@@ -23,7 +23,7 @@ let package = Package(
     ],
     targets: [
         .executableTarget(
-            name: "App",
+            name: "Monitoring",
             dependencies: [
                 .product(name: "Fluent", package: "fluent"),
                 .product(name: "FluentPostgresDriver",
@@ -36,8 +36,26 @@ let package = Package(
 //                .product(name: "Leaf", package: "leaf"),
             ]
         ),
-        .testTarget(name: "AppTests", dependencies: [
-            .target(name: "App"),
+        .testTarget(name: "MonitoringTests", dependencies: [
+            .target(name: "Monitoring"),
+            .product(name: "XCTVapor", package: "vapor"),
+            .product(name: "XCTQueues", package: "queues")
+        ]),
+        .executableTarget(
+            name: "Monitored",
+            dependencies: [
+                .product(name: "Fluent", package: "fluent"),
+                .product(name: "FluentPostgresDriver",
+                         package: "fluent-postgres-driver"),
+                .product(name: "Vapor", package: "vapor"),
+                .product(name: "JWT", package: "jwt"),
+                .product(name: "QueuesRedisDriver",
+                         package: "queues-redis-driver"),
+                .product(name: "Mailgun", package: "mailgun"),
+            ]
+        ),
+        .testTarget(name: "MonitoredTests", dependencies: [
+            .target(name: "Monitored"),
             .product(name: "XCTVapor", package: "vapor"),
             .product(name: "XCTQueues", package: "queues")
         ])
